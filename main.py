@@ -175,7 +175,7 @@ def retrieve_query(query, k=2):
     return matching_results
 
 # Initialize LLM and chain
-llm = OpenAI(model_name='text-davinci-003', temperature=0.5, openai_api_key= os.getenv('OPENAI_API_KEY'))
+llm = OpenAI(model_name='text-davinci-003', temperature=0.5, openai_api_key= os.environ['OPENAI_API_KEY'])
 chain = load_qa_chain(llm, chain_type='stuff')
 
 def retrieve_answers(query, max_retries=3):
