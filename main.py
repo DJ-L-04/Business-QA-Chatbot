@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = sk-YC_IqbSXRAPcV_F4oIjd8c1U-p8yx6ov9vYW2BJfb_T3BlbkFJ3vGcqwRc7kLy7-i_NYe_vfdURwAOtRznIOIo8gaCkA
+PINECONE_API_KEY = 18199d00-dd06-4319-a0da-3bd9840a0fdf
 st.set_page_config(
     page_title="Yardstick Chat Assistant",
     page_icon="🤖",
@@ -141,14 +141,11 @@ def text_chunks(documents, chunk_size=1000, chunk_overlap=20):
 #Embeddings
 @st.cache_resource
 def initialize_embeddings_and_index():
-
-    os.environ['PINECONE_API_KEY'] = PINECONE_API_KEY
-    os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
     
     embeddings = OpenAIEmbeddings(api_key= OPENAI_API_KEY)
     
     from pinecone import Pinecone
-    pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
+    pc = Pinecone(api_key=PINECONE_API_KEY)
     
     if 'my-index' not in pc.list_indexes().names():
         pc.create_index(
@@ -175,7 +172,7 @@ def retrieve_query(query, k=2):
     return matching_results
 
 # Initialize LLM and chain
-llm = OpenAI(model_name='text-davinci-003', temperature=0.5, openai_api_key= os.environ['OPENAI_API_KEY'])
+llm = OpenAI(model_name='text-davinci-003', temperature=0.5, openai_api_key= OPENAI_API_KEY)
 chain = load_qa_chain(llm, chain_type='stuff')
 
 def retrieve_answers(query, max_retries=3):
